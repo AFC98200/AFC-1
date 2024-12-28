@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aditya Fruits Centre</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+            justify-content: center;
+        }
+        .product {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+            width: 200px;
+        }
+        .product img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .product button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .cart {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .cart-items {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .cart-total {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Aditya Fruits Centre</h1>
+        <p>Fresh fruits delivered to your doorstep in Mulund</p>
+    </header>
+
+    <section class="products" id="product-list">
+        <!-- Example product items -->
+        <div class="product">
+            <img src="apple.jpg" alt="Apple">
+            <h3>Fresh Apples</h3>
+            <p>Price: ₹120/kg</p>
+            <button onclick="addToCart('Fresh Apples', 120)">Add to Cart</button>
+        </div>
+        <div class="product">
+            <img src="banana.jpg" alt="Banana">
+            <h3>Fresh Bananas</h3>
+            <p>Price: ₹60/dozen</p>
+            <button onclick="addToCart('Fresh Bananas', 60)">Add to Cart</button>
+        </div>
+        <!-- Add more products here -->
+    </section>
+
+    <div class="cart" id="cart">
+        <h3>Your Cart</h3>
+        <div class="cart-items" id="cart-items"></div>
+        <p class="cart-total" id="cart-total">Total: ₹0</p>
+        <button onclick="checkout()">Checkout</button>
+    </div>
+
+    <script>
+        const cart = [];
+
+        function addToCart(productName, price) {
+            cart.push({ name: productName, price });
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartItemsDiv = document.getElementById('cart-items');
+            const cartTotalDiv = document.getElementById('cart-total');
+            cartItemsDiv.innerHTML = '';
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.classList.add('cart-item');
+                div.innerHTML = `${item.name} - ₹${item.price} <button onclick="removeFromCart(${index})">Remove</button>`;
+                cartItemsDiv.appendChild(div);
+                total += item.price;
+            });
+
+            cartTotalDiv.textContent = `Total: ₹${total}`;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function checkout() {
+            alert('Thank you for your purchase!');
+            cart.length = 0;
+            updateCart();
+        }
+    </script>
+</body>
+</html>
